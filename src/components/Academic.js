@@ -1,14 +1,15 @@
 import React, { useState, useRef } from 'react';
 import { getDatabase, ref, set } from 'firebase/database';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate
-import { auth } from '../utils/firebase'; // Ensure this import matches your Firebase configuration
+import { useNavigate } from 'react-router-dom';
+import { auth } from '../utils/firebase';
 import Header from './Header';
+
 const AcademicForm = () => {
   const [standard, setStandard] = useState("");
   const [isSubmitted, setIsSubmitted] = useState(false);
 
   // Refs for input fields
-  const nameRef = useRef(null); // Ref for name input field
+  const nameRef = useRef(null);
   const schoolNameRef = useRef(null);
   const schoolLocationRef = useRef(null);
   const streamRef = useRef(null);
@@ -28,7 +29,9 @@ const AcademicForm = () => {
   const scholarshipApplicationsRef = useRef(null);
   const gapYearConsiderationRef = useRef(null);
 
-  const navigate = useNavigate(); // Initialize useNavigate
+  const cutoffRef12th = useRef(null);
+
+  const navigate = useNavigate();
 
   const handleSubmit = async () => {
     setIsSubmitted(true);
@@ -45,7 +48,7 @@ const AcademicForm = () => {
       const userRef = ref(db, `students/${userId}/academicDetails`);
 
       const academicData = {
-        name: nameRef.current.value, // Include name in the data
+        name: nameRef.current.value,
         schoolName: schoolNameRef.current.value,
         schoolLocation: schoolLocationRef.current.value,
         stream: standard === "10th" ? streamRef.current.value : null,
@@ -64,190 +67,200 @@ const AcademicForm = () => {
         extracurricularAchievements: standard === "12th" ? extracurricularAchievementsRef.current.value : null,
         scholarshipApplications: standard === "12th" ? scholarshipApplicationsRef.current.value : null,
         gapYearConsideration: standard === "12th" ? gapYearConsiderationRef.current.value : null,
+        cutoffMarks12th: standard === "12th" ? cutoffRef12th.current.value : null,
       };
 
       await set(userRef, academicData);
 
       alert("Academic details submitted successfully!");
-      navigate('/browse'); // Navigate to the browse page upon success
+      navigate('/browse');
     } catch (error) {
       console.error("Error submitting academic details: ", error);
       alert("Failed to submit academic details.");
-      setIsSubmitted(false); // Reset form or handle error as needed
+      setIsSubmitted(false);
     }
   };
 
   return (
+
     <div>
       <Header/>
-    <div className='flex justify-center items-center min-h-screen'>
-      <div className='shadow-2xl bg-white rounded-lg p-7 mx-4 md:w-4/12 md:my-36 sm:my-28 sm:mx-auto'>
-        <h1 className="font-semibold text-2xl mb-4">Academic Details</h1>
+      <div className='flex justify-center items-center min-h-screen'>
+        <div className='shadow-2xl bg-white rounded-lg p-7 mx-4 md:w-4/12 md:my-36 sm:my-28 sm:mx-auto'>
+          <h1 className="font-semibold text-2xl mb-4">Academic Details</h1>
 
-        <input
-          ref={nameRef}
-          type='text'
-          placeholder="Your Name"
-          className='p-3 mb-4 border border-gray-400 w-full rounded-lg'
-        />
+          <input
+            ref={nameRef}
+            type='text'
+            placeholder="Your Name"
+            className='p-3 mb-4 border border-gray-400 w-full rounded-lg'
+          />
 
-        <select
-          value={standard}
-          onChange={(e) => setStandard(e.target.value)}
-          className='p-3 mb-4 border border-gray-400 w-full rounded-lg'
-        >
-          <option value="">Select Standard</option>
-          <option value="10th">10th Standard</option>
-          <option value="12th">12th Standard</option>
-        </select>
+          <select
+            value={standard}
+            onChange={(e) => setStandard(e.target.value)}
+            className='p-3 mb-4 border border-gray-400 w-full rounded-lg'
+          >
+            <option value="">Select Standard</option>
+            <option value="10th">10th Standard</option>
+            <option value="12th">12th Standard</option>
+          </select>
 
-        <input
-          ref={schoolNameRef}
-          type='text'
-          placeholder="Current School Name"
-          className='p-3 mb-4 border border-gray-400 w-full rounded-lg'
-        />
+          <input
+            ref={schoolNameRef}
+            type='text'
+            placeholder="Current School Name"
+            className='p-3 mb-4 border border-gray-400 w-full rounded-lg'
+          />
 
-        <input
-          ref={schoolLocationRef}
-          type='text'
-          placeholder="School Location"
-          className='p-3 mb-4 border border-gray-400 w-full rounded-lg'
-        />
+          <input
+            ref={schoolLocationRef}
+            type='text'
+            placeholder="School Location"
+            className='p-3 mb-4 border border-gray-400 w-full rounded-lg'
+          />
 
-        {standard === "10th" && (
-          <>
-            <select
-              ref={streamRef}
-              className='p-3 mb-4 border border-gray-400 w-full rounded-lg'
-              defaultValue=""
-            >
-              <option value="">Preferred Stream After 10th</option>
-              <option value="Science">Science (with or without Biology)</option>
-              <option value="Commerce">Commerce</option>
-              <option value="Arts">Arts/Humanities</option>
-              <option value="Vocational">Vocational/Technical Education</option>
-            </select>
+          {standard === "10th" && (
+            <>
+              <select
+                ref={streamRef}
+                className='p-3 mb-4 border border-gray-400 w-full rounded-lg'
+                defaultValue=""
+              >
+                <option value="">Preferred Stream After 10th</option>
+                <option value="Science">Science (with or without Biology)</option>
+                <option value="Commerce">Commerce</option>
+                <option value="Arts">Arts/Humanities</option>
+                <option value="Vocational">Vocational/Technical Education</option>
+              </select>
 
-            <input
-              ref={subjectsRef}
-              type='text'
-              placeholder="Subjects of Interest"
-              className='p-3 mb-4 border border-gray-400 w-full rounded-lg'
-            />
+              <input
+                ref={subjectsRef}
+                type='text'
+                placeholder="Subjects of Interest"
+                className='p-3 mb-4 border border-gray-400 w-full rounded-lg'
+              />
 
-            <input
-              ref={careerAspirationsRef}
-              type='text'
-              placeholder="Career Aspirations"
-              className='p-3 mb-4 border border-gray-400 w-full rounded-lg'
-            />
+              <input
+                ref={careerAspirationsRef}
+                type='text'
+                placeholder="Career Aspirations"
+                className='p-3 mb-4 border border-gray-400 w-full rounded-lg'
+              />
 
-            <input
-              ref={extracurricularRef}
-              type='text'
-              placeholder="Extracurricular Activities"
-              className='p-3 mb-4 border border-gray-400 w-full rounded-lg'
-            />
+              <input
+                ref={extracurricularRef}
+                type='text'
+                placeholder="Extracurricular Activities"
+                className='p-3 mb-4 border border-gray-400 w-full rounded-lg'
+              />
 
-            <input
-              ref={additionalSupportRef}
-              type='text'
-              placeholder="Additional Support Needed"
-              className='p-3 mb-4 border border-gray-400 w-full rounded-lg'
-            />
-          </>
-        )}
+              <input
+                ref={additionalSupportRef}
+                type='text'
+                placeholder="Additional Support Needed"
+                className='p-3 mb-4 border border-gray-400 w-full rounded-lg'
+              />
+            </>
+          )}
 
-        {standard === "12th" && (
-          <>
-            <input
-              ref={boardRef}
-              type='text'
-              placeholder="Board of Education"
-              className='p-3 mb-4 border border-gray-400 w-full rounded-lg'
-            />
+          {standard === "12th" && (
+            <>
+              <input
+                ref={boardRef}
+                type='text'
+                placeholder="Board of Education"
+                className='p-3 mb-4 border border-gray-400 w-full rounded-lg'
+              />
 
-            <input
-              ref={marksRef}
-              type='text'
-              placeholder="Marks/Grades in Key Subjects"
-              className='p-3 mb-4 border border-gray-400 w-full rounded-lg'
-            />
+              <input
+                ref={marksRef}
+                type='text'
+                placeholder="Marks/Grades in Key Subjects"
+                className='p-3 mb-4 border border-gray-400 w-full rounded-lg'
+              />
 
-            <input
-              ref={overallPercentageRef}
-              type='text'
-              placeholder="Overall Percentage/CGPA"
-              className='p-3 mb-4 border border-gray-400 w-full rounded-lg'
-            />
+              <input
+                ref={overallPercentageRef}
+                type='text'
+                placeholder="Overall Percentage/CGPA"
+                className='p-3 mb-4 border border-gray-400 w-full rounded-lg'
+              />
 
-            <input
-              ref={streamRef}
-              type='text'
-              placeholder="Stream Confirmation"
-              className='p-3 mb-4 border border-gray-400 w-full rounded-lg'
-            />
+              <input
+                ref={streamRef}
+                type='text'
+                placeholder="Stream Confirmation"
+                className='p-3 mb-4 border border-gray-400 w-full rounded-lg'
+              />
 
-            <input
-              ref={entranceExamPrepRef}
-              type='text'
-              placeholder="Entrance Exam Preparation"
-              className='p-3 mb-4 border border-gray-400 w-full rounded-lg'
-            />
+              <input
+                ref={entranceExamPrepRef}
+                type='text'
+                placeholder="Entrance Exam Preparation"
+                className='p-3 mb-4 border border-gray-400 w-full rounded-lg'
+              />
 
-            <input
-              ref={higherEducationAspirationsRef}
-              type='text'
-              placeholder="Higher Education Aspirations"
-              className='p-3 mb-4 border border-gray-400 w-full rounded-lg'
-            />
+              <input
+                ref={higherEducationAspirationsRef}
+                type='text'
+                placeholder="Higher Education Aspirations"
+                className='p-3 mb-4 border border-gray-400 w-full rounded-lg'
+              />
 
-            <input
-              ref={preferredInstitutionsRef}
-              type='text'
-              placeholder="Preferred Institutions/Universities"
-              className='p-3 mb-4 border border-gray-400 w-full rounded-lg'
-            />
+              <input
+                ref={preferredInstitutionsRef}
+                type='text'
+                placeholder="Preferred Institutions/Universities"
+                className='p-3 mb-4 border border-gray-400 w-full rounded-lg'
+              />
 
-            <input
-              ref={careerGoalsRef}
-              type='text'
-              placeholder="Career Goals"
-              className='p-3 mb-4 border border-gray-400 w-full rounded-lg'
-            />
+              <input
+                ref={careerGoalsRef}
+                type='text'
+                placeholder="Career Goals"
+                className='p-3 mb-4 border border-gray-400 w-full rounded-lg'
+              />
 
-            <input
-              ref={extracurricularAchievementsRef}
-              type='text'
-              placeholder="Extracurricular Achievements"
-              className='p-3 mb-4 border border-gray-400 w-full rounded-lg'
-            />
+              <input
+                ref={extracurricularAchievementsRef}
+                type='text'
+                placeholder="Extracurricular Achievements"
+                className='p-3 mb-4 border border-gray-400 w-full rounded-lg'
+              />
 
-            <input
-              ref={scholarshipApplicationsRef}
-              type='text'
-              placeholder="Scholarship Applications"
-              className='p-3 mb-4 border border-gray-400 w-full rounded-lg'
-            />
+              <input
+                ref={scholarshipApplicationsRef}
+                type='text'
+                placeholder="Scholarship Applications"
+                className='p-3 mb-4 border border-gray-400 w-full rounded-lg'
+              />
 
-            <input
-              ref={gapYearConsiderationRef}
-              type='text'
-              placeholder="Gap Year Consideration"
-              className='p-3 mb-4 border border-gray-400 w-full rounded-lg'
-            />
-          </>
-        )}
+              <input
+                ref={gapYearConsiderationRef}
+                type='text'
+                placeholder="Gap Year Consideration"
+                className='p-3 mb-4 border border-gray-400 w-full rounded-lg'
+              />
 
-        <button
-          className='w-full bg-blue-500 p-3 mb-4 rounded-lg text-white'
-          onClick={handleSubmit}
-        >
-          Submit
-        </button>
+              <input
+                ref={cutoffRef12th}
+                type='text'
+                placeholder="Cutoff Marks for 12th Standard"
+                className='p-3 mb-4 border border-gray-400 w-full rounded-lg'
+              />
+            </>
+          )}
+
+          <button
+            onClick={handleSubmit}
+            disabled={isSubmitted}
+            className={`bg-blue-500 text-white py-2 px-4 rounded-lg ${isSubmitted ? 'opacity-50 cursor-not-allowed' : ''}`}
+          >
+            Submit
+          </button>
+        </div>
       </div>
-    </div>
     </div>
   );
 };

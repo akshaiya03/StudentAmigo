@@ -20,17 +20,9 @@ const Navbar = () => {
       <li>
         <Link
           className="block px-4 py-2 hover:text-blue-600 transition-colors"
-          to="/Colleges"
+          to="/College"
         >
           Colleges
-        </Link>
-      </li>
-      <li>
-        <Link
-          className="block px-4 py-2 hover:text-blue-600 transition-colors"
-          to="/Scholorship"
-        >
-          Scholorship
         </Link>
       </li>
       <li>

@@ -13,6 +13,9 @@ import AcademicForm from './Academic'
 import Career from './Career'
 import DetailsPage from './DetailsPage'
 import CollegeData from './College'
+import MentorPage from './MentorPage'
+import CollegeCourses from './CollegeCourses'
+import CourseList from './CollegeCourses'
 const Body = () => {
     const dispatch=useDispatch()
     const approuter =createBrowserRouter([
@@ -43,7 +46,16 @@ const Body = () => {
         {
           path:"/College",
           element:<CollegeData/>
+        },
+        {
+          path:"/mentor-page",
+          element:<MentorPage/>
+        },
+        {
+          path: "/college/:collegeId",
+          element: <CourseList/>
         }
+        
     ])
     useEffect(()=>{
         onAuthStateChanged(auth, (user) => {

@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { getDatabase, ref, onValue } from 'firebase/database';
 import { auth } from '../utils/firebase';
 import Header from './Header';
-import quizImage from './images/test.jpg'
+import quizImage from "./images/test.jpg"
 import { useNavigate } from 'react-router-dom';
 
 const ExplorePage = () => {
@@ -33,7 +33,7 @@ const ExplorePage = () => {
       <Header />
       
       <div className="max-w-7xl mx-auto p-6">
-        <h2 className='text-2xl p-4 m-4 font-bold'>Welcome, {userData?.academicDetails?.name}</h2>
+        <h2 className='text-2xl pb-3 font-bold'>Welcome, {userData?.academicDetails?.name}</h2>
         <p className="text-lg text-gray-600 mb-8">
           Discover personalized 1-on-1 career counseling and professional guidance sessions 
           to help you navigate your career path and achieve your goals.
@@ -51,8 +51,8 @@ const ExplorePage = () => {
             <div className="min-w-[300px] p-6 bg-green-100 text-green-900 rounded-lg shadow-lg">
               <h3 className="text-2xl font-semibold mb-3">Interview Preparation</h3>
               <p className="mb-3">Professional guidance on how to excel in your interviews.</p>
-              <p className="font-bold mb-6">Session: 11:00 AM</p>
-              <button className="bg-green-700 text-white py-2 px-4 rounded hover:bg-green-600 transition duration-300">Join Session</button>
+              <p className="font-bold mb-6 pb-5">Session: 11:00 AM</p>
+              <button className="bg-green-700 text-white py-2 px-4 rounded hover:bg-green-600 transition duration-300 ">Join Session</button>
             </div>
             <div className="min-w-[300px] p-6 bg-purple-100 text-purple-900 rounded-lg shadow-lg">
               <h3 className="text-2xl font-semibold mb-3">Career Path Planning</h3>
@@ -63,7 +63,7 @@ const ExplorePage = () => {
             <div className="min-w-[300px] p-6 bg-red-100 text-red-900 rounded-lg shadow-lg">
               <h3 className="text-2xl font-semibold mb-3">Networking Strategies</h3>
               <p className="mb-3">Professional guidance on building a strong professional network.</p>
-              <p className="font-bold mb-6">Session: 3:00 PM</p>
+              <p className="font-bold mb-6 pb-7">Session: 3:00 PM</p>
               <button className="bg-red-700 text-white py-2 px-4 rounded hover:bg-red-600 transition duration-300">Join Session</button>
             </div>
           </div>
@@ -72,17 +72,17 @@ const ExplorePage = () => {
        
         <div className="bg-white p-6 shadow-md rounded-lg flex items-center">
           <div className="flex-1 pr-6">
-            <h3 className="text-2xl font-semibold mb-4">Career Options Quiz</h3>
+            <h3 className="text-2xl font-semibold mb-4">Get Personalized Career Guidance from Your Counselor</h3>
             <p className="text-lg text-gray-600 mb-4">
-              Unsure about which career path is right for you? Take our comprehensive career options quiz to discover careers that align with your skills, interests, and values. This quiz will help you explore various career paths and provide you with personalized recommendations based on your results.
+            Unsure about which career path is right for you? Talk to your counselor for career support. They can help you explore various career paths and provide personalized guidance based on your skills, interests, and values
             </p>
             <p className="text-lg text-gray-600 mb-6">
-              The quiz covers various aspects such as your academic strengths, personal interests, and long-term goals to guide you toward a career that suits you best. Start your journey toward a fulfilling career by taking this first step today!
+            Discuss your academic strengths, personal interests, and long-term goals with your counselor to receive guidance toward a career that suits you best. Start your journey toward a fulfilling career by reaching out for support today!
             </p>
             <button className="bg-blue-700 text-white py-2 px-4 rounded hover:bg-blue-600 transition duration-300"
             onClick={() => navigate("/Browse")}
             >
-              Take the Quiz
+              Take Test
             </button>
           </div>
           <img src={quizImage} alt="Career Quiz" className="w-1/2 h-auto object-cover rounded-lg shadow-md" />
